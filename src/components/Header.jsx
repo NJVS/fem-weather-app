@@ -7,7 +7,51 @@ function Header() {
     const [input, setInput] = useState('');
     const [selectedCity, setSelectedCity] = useState(null);
 
-    const formatCityLabel = (city) => city.country ? `${city.name}, ${city.country}` : city.name;
+    const normalizeLabelPart = (value) => String(value ?? '').trim().toLowerCase();
+
+    const getFeatureLabel = (featureCode) => {
+        if (!featureCode) {
+            return '';
+        }
+
+        if (featureCode === 'PPLC') {
+            return 'Capital';
+        }
+
+        if (featureCode.startsWith('PPL')) {
+            return 'City';
+        }
+
+        if (featureCode.startsWith('ADM')) {
+            return 'Administrative area';
+        }
+
+        return featureCode;
+    };
+
+    const getLocationContext = (city) => {
+        const seen = new Set([normalizeLabelPart(city.name)]);
+
+        return [city.admin4, city.admin3, city.admin2, city.admin1, city.country]
+            .filter(Boolean)
+            .filter((part) => {
+                const normalizedPart = normalizeLabelPart(part);
+
+                if (!normalizedPart || seen.has(normalizedPart)) {
+                    return false;
+                }
+
+                seen.add(normalizedPart);
+                return true;
+            })
+            .join(', ');
+    };
+
+    const formatCityLabel = (city) => {
+        const context = getLocationContext(city);
+
+        return context ? `${city.name}, ${context}` : city.name;
+    };
 
     const activeQuery = selectedCity && input === formatCityLabel(selectedCity) ? '' : input;
     const { suggestions, loading } = useCityAutocomplete(activeQuery);
@@ -58,10 +102,15 @@ function Header() {
                                     <li key={`${city.id}-${city.latitude}-${city.longitude}`}>
                                         <button
                                             type="button"
-                                            className="flex justify-start w-full px-3 py-2 text-sm transition rounded-md hover:bg-neutral-600 text-neutral-0"
+                                            className="flex flex-col items-start w-full px-3 py-2 text-left transition rounded-md hover:bg-neutral-600 text-neutral-0"
                                             onClick={() => handleSelectCity(city)}
                                         >
-                                            {city.name}, {city.country}
+                                            <span className="text-sm">{city.name}</span>
+                                            <span className="text-xs text-neutral-300">
+                                                {[getFeatureLabel(city.feature_code), getLocationContext(city)]
+                                                    .filter(Boolean)
+                                                    .join(' | ')}
+                                            </span>
                                         </button>
                                     </li>
                                 ))
