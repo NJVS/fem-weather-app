@@ -20,7 +20,7 @@ function Navbar() {
 
                 <button onClick={() => setShowMenu(prev => !prev)} 
                     className={`
-                        flex items-center gap-2 px-4 py-2 text-sm font-display rounded-sm bg-neutral-700 text-neutral-0 border
+                        flex items-center gap-2 px-4 py-2 text-sm font-display rounded-sm bg-neutral-800 text-neutral-0 border
                         ${showMenu ? "border-neutral-500" : "border-transparent"}
                     `}>
                     <img src={Clog} alt="clog icon" />
@@ -29,7 +29,7 @@ function Navbar() {
                 </button>
 
                 {showMenu && (
-                    <div className="absolute top-[calc(100%+4px)] right-0 flex flex-col p-1 bg-neutral-700 w-[175%] rounded text-sm border border-neutral-500">
+                    <div className="absolute top-[calc(100%+4px)] right-0 flex flex-col p-1 bg-neutral-800 w-50 rounded text-sm border border-neutral-500 z-40">
                         <button className='flex justify-between px-3 py-2 transition rounded item-center hover:bg-neutral-600'>Switch to Imperial</button>
 
                         <div className="flex flex-col border-b border-neutral-600">
