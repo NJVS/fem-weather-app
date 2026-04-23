@@ -1,7 +1,6 @@
 import Header from "./components/Header"
 import Navbar from "./components/Navbar"
 import WeatherDaily from "./components/WeatherDaily"
-import WeatherDetails from "./components/WeatherDetails"
 import WeatherHourly from "./components/WeatherHourly"
 import WeatherToday from "./components/WeatherToday"
 
