@@ -1,4 +1,5 @@
 import { createContext, useContext, useReducer } from "react";
+import { fetchWeatherForecast } from "../lib/weatherApi";
 
 const WeatherContext = createContext(null);
 
@@ -58,6 +59,37 @@ function weatherReducer(state, action) {
 
 export function WeatherProvider({ children }) {
     const [state, dispatch] = useReducer(weatherReducer, initialState);
+
+    async function searchWeather(city) {
+        dispatch({
+            type: "weather/requestStarted"
+        });
+
+        try {
+            const weather = await fetchWeatherForecast(city, state.units);
+
+            dispatch({
+                type: "weather/requestSucceeded",
+                payload: { city, weather }
+            })
+        } catch (error) {
+            dispatch({
+                type: 'weather/requestFailed',
+                payload: error.message,
+            })
+        }
+    }
+
+    const value = {
+        ...state,
+        searchWeather,
+    }
+
+    return (
+        <WeatherContext.Provider value={value}>
+            { children }
+        </WeatherContext.Provider>
+    )
 }
 
 export function useWeather() {
