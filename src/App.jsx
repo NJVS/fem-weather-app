@@ -20,7 +20,6 @@ function App() {
                     <WeatherHourly />
                 </main>
 
-                {/* <WeatherDetails /> */}
                 <div className="py-1 mt-auto text-xs text-center text-neutral-0">
                     Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank" className="text-blue-400">Frontend Mentor</a>.
                     Coded by <a href="https://njvs.github.io/portfolio-v2/" className="text-blue-400">lieneil</a>.
