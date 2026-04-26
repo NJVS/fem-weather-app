@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { useCityAutocomplete } from '../hooks/useCityAutocomplete';
+import { useWeather } from '../context/WeatherContext';
 
 import SearchIcon from '../assets/images/icon-search.svg';
 
 function Header() {
     const [input, setInput] = useState('');
     const [selectedCity, setSelectedCity] = useState(null);
-
+    const { searchWeather, loading } = useWeather();
+    
     const normalizeLabelPart = (value) => String(value ?? '').trim().toLowerCase();
 
     const getFeatureLabel = (featureCode) => {
@@ -54,11 +56,11 @@ function Header() {
     };
 
     const activeQuery = selectedCity && input === formatCityLabel(selectedCity) ? '' : input;
-    const { suggestions, loading } = useCityAutocomplete(activeQuery);
+    const { suggestions, loadingCity } = useCityAutocomplete(activeQuery);
 
     const hasQuery = Boolean(activeQuery.trim());
-    const showNoResults = hasQuery && !loading && suggestions.length === 0;
-    const showDropdown = hasQuery && (loading || suggestions.length > 0 || showNoResults);
+    const showNoResults = hasQuery && !loadingCity && suggestions.length === 0;
+    const showDropdown = hasQuery && (loadingCity || suggestions.length > 0 || showNoResults);
 
     const handleChange = (event) => {
         if (selectedCity) {
@@ -74,6 +76,14 @@ function Header() {
 
         console.log('Selected city:', city.name, city.country, city.latitude, city.longitude);
     };
+
+    async function handleSearch() {
+        if (!selectedCity) {
+            return;
+        }
+
+        await searchWeather(selectedCity);
+    }
 
     return (
         <header className="flex flex-col items-center justify-center py-10 gap-14">
@@ -93,7 +103,7 @@ function Header() {
 
                     {showDropdown && (
                         <ul className="absolute top-[calc(100%+6px)] w-full flex flex-col gap-1 p-1 rounded-md border border-neutral-500 bg-neutral-700 font-sans z-40">
-                            {loading ? (
+                            {loadingCity ? (
                                 <li className="flex justify-start px-3 py-2 text-sm rounded-md text-neutral-0">
                                     Loading...
                                 </li>
@@ -122,7 +132,12 @@ function Header() {
                         </ul>
                     )}
                 </div>
-                <button className="px-6 py-2.5 transition bg-blue-500 rounded-md text-neutral-0 hover:bg-blue-700">Search</button>
+                <button 
+                    onClick={handleSearch} 
+                    disabled={!selectedCity || loading}
+                    className={`px-6 py-2.5 transition rounded-md bg-blue-500 text-neutral-0 ${(!selectedCity || loading) ? '' : 'hover:bg-blue-700'}`}>
+                    {loading ? "Loading..." : "Search"}
+                </button>
             </div>
         </header>
     )
