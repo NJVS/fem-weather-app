@@ -80,9 +80,53 @@ export function WeatherProvider({ children }) {
         }
     }
 
+    async function updateUnits(nextUnits) {
+        const updatedUnits = {
+            ...state.units,
+            ...nextUnits,
+        }
+
+        dispatch({
+            type: "units/updated",
+            payload: nextUnits,
+        });
+
+        if (!state.selectedCity) {
+            return;
+        }
+
+        dispatch({ type: "weather/requestStarted" });
+
+        try {
+            const weather = await fetchWeatherForecast(state.selectedCity, updatedUnits);
+
+            dispatch({
+                type: 'weather/requestSucceeded',
+                payload: {
+                    city: state.selectedCity,
+                    weather,
+                }
+            })
+        } catch(error) {
+            dispatch({
+                type: 'weather/requestFailed',
+                payload: error.message,
+            })
+        }
+    }
+
+    function setSelectedDayIndex(index) {
+        dispatch({
+            type: "day/selected",
+            payload: index,
+        });
+    }
+
     const value = {
         ...state,
         searchWeather,
+        updateUnits,
+        setSelectedDayIndex,
     }
 
     return (
