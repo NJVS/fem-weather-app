@@ -1,20 +1,6 @@
-import { createContext, useContext, useReducer } from "react";
+import { useReducer } from "react";
 import { fetchWeatherForecast } from "../lib/weatherApi";
-
-const WeatherContext = createContext(null);
-
-const initialState = {
-    selectedCity: null,
-    units: {
-        temperature: "celsius",
-        windSpeed: "kmh",
-        precipitation: "mm"
-    },
-    weather: null,
-    loading: false,
-    error: null,
-    selectedDayIndex: 0,
-}
+import { initialState, WeatherContext } from "./weatherContext";
 
 function weatherReducer(state, action) {
     switch(action.type) {
@@ -44,7 +30,7 @@ function weatherReducer(state, action) {
                 ...state,
                 units: {
                     ...state.units,
-                    ...state.payload,
+                    ...action.payload,
                 }
             }
         case "day/selected":
@@ -134,14 +120,4 @@ export function WeatherProvider({ children }) {
             { children }
         </WeatherContext.Provider>
     )
-}
-
-export function useWeather() {
-    const context = useContext(WeatherContext);
-
-    if (!context) {
-        throw new Error("useWWeather must be used inside WeatherProvider!");
-    }
-
-    return context;
 }

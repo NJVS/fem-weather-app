@@ -96,7 +96,7 @@ export async function fetchWeatherForecast(city, units) {
         ].join(","),
         forecast_days: "7",
         timezone: "auto",
-        temperature_units: units.temperature,
+        temperature_unit: units.temperature,
         wind_speed_unit: units.windSpeed,
         precipitation_unit: units.precipitation,
     });

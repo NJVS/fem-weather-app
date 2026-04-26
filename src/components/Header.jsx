@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useCityAutocomplete } from '../hooks/useCityAutocomplete';
-import { useWeather } from '../context/WeatherContext';
+import { useWeather } from '../context/useWeather';
 
 import SearchIcon from '../assets/images/icon-search.svg';
 
@@ -8,7 +8,7 @@ function Header() {
     const [input, setInput] = useState('');
     const [selectedCity, setSelectedCity] = useState(null);
     const { searchWeather, loading } = useWeather();
-    
+
     const normalizeLabelPart = (value) => String(value ?? '').trim().toLowerCase();
 
     const getFeatureLabel = (featureCode) => {
@@ -73,8 +73,6 @@ function Header() {
     const handleSelectCity = (city) => {
         setSelectedCity(city);
         setInput(formatCityLabel(city));
-
-        console.log('Selected city:', city.name, city.country, city.latitude, city.longitude);
     };
 
     async function handleSearch() {
