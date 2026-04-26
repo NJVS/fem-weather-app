@@ -103,7 +103,7 @@ function rankSuggestions(results, query) {
 
 export function useCityAutocomplete(query, delay = 300) {
     const [suggestions, setSuggestions] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [loadingCity, setLoadingCity] = useState(false);
 
     const cache = useRef({});
     const controller = useRef(null);
@@ -121,13 +121,13 @@ export function useCityAutocomplete(query, delay = 300) {
         const timer = setTimeout(async () => {
             if (!q) {
                 setSuggestions([]);
-                setLoading(false);
+                setLoadingCity(false);
                 return;
             }
 
             if (cache.current[q]) {
                 setSuggestions(cache.current[q]);
-                setLoading(false);
+                setLoadingCity(false);
                 return;
             }
 
@@ -135,7 +135,7 @@ export function useCityAutocomplete(query, delay = 300) {
             controller.current = nextController;
 
             try {
-                setLoading(true);
+                setLoadingCity(true);
 
                 const params = new URLSearchParams({
                     name: q,
@@ -171,7 +171,7 @@ export function useCityAutocomplete(query, delay = 300) {
                 }
             } finally {
                 if (controller.current === nextController) {
-                    setLoading(false);
+                    setLoadingCity(false);
                     controller.current = null;
                 }
             }
@@ -187,5 +187,5 @@ export function useCityAutocomplete(query, delay = 300) {
         };
     }, [query, delay]);
 
-    return { suggestions, loading };
+    return { suggestions, loadingCity };
 }
