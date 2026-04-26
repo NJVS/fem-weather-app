@@ -81,7 +81,7 @@ export async function fetchWeatherForecast(city, units) {
             "relative_humidity_2m",
             "precipitation",
             "weather_code",
-            "wind_peed_10m",
+            "wind_speed_10m",
         ].join(","),
         hourly: [
             "temperature_2m",
