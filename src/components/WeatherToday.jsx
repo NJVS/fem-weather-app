@@ -1,3 +1,5 @@
+import { useWeather } from '../context/useWeather';
+
 import currentBgDesktop from '../assets/images/bg-today-large.svg';
 import currentBgMobile from '../assets/images/bg-today-small.svg';
 
@@ -9,8 +11,43 @@ import WeatherRain from '../assets/images/icon-rain.webp';
 import WeatherSnow from '../assets/images/icon-snow.webp';
 import WeatherStorm from '../assets/images/icon-storm.webp';
 import WeatherSunny from '../assets/images/icon-sunny.webp';
+import IconLoading from '../assets/images/icon-loading.svg';
 
 function WeatherToday() {
+    const { loading, weather, error } = useWeather();
+
+    if (loading) {
+        return (
+            <div className="flex flex-col gap-6 md:gap-3 lg:gap-8">
+                <div className="relative overflow-hidden rounded-2xl bg-neutral-800">
+                    <img src={currentBgDesktop} alt="Hero" className="relative -z-10 object-cover w-full h-64" />
+                    <div className="absolute inset-0 flex flex-col items-center justify-center">
+                        <img src={IconLoading} alt="" />
+                        <span className='text-neutral-0 text-sm font-semibold'>Loading</span>
+                    </div>
+                </div>
+                <div className="grid grid-cols-[repeat(auto-fill,minmax(161px,1fr))] gap-3 xs:gap-6 md:gap-3 lg:gap-6">
+                    <div className="flex flex-col gap-3 p-4 border rounded-lg border-neutral-600 bg-neutral-700">
+                        <h6 className="text-neutral-200 font-display">Feels Like</h6>
+                        <p className="text-3xl font-extralight text-neutral-0">-</p>
+                    </div>
+                    <div className="flex flex-col gap-3 p-4 border rounded-lg border-neutral-600 bg-neutral-700">
+                        <h6 className="text-neutral-200 font-display">Humidity</h6>
+                        <p className="text-3xl font-extralight text-neutral-0">-</p>
+                    </div>
+                    <div className="flex flex-col gap-3 p-4 border rounded-lg border-neutral-600 bg-neutral-700">
+                        <h6 className="text-neutral-200 font-display">Wind</h6>
+                        <p className="text-3xl font-extralight text-neutral-0">-</p>
+                    </div>
+                    <div className="flex flex-col gap-3 p-4 border rounded-lg border-neutral-600 bg-neutral-700">
+                        <h6 className="text-neutral-200 font-display">Precipitation</h6>
+                        <p className="text-3xl font-extralight text-neutral-0">-</p>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
     return (
         <div className="flex flex-col gap-6 md:gap-3 lg:gap-8">
             {/* main details */}
