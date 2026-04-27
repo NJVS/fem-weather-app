@@ -5,6 +5,7 @@ import { getWeatherPresentation, weatherIcons } from '../lib/weatherPresentation
 import { getHour } from '../lib/helpers';
 
 import DropDown from '../assets/images/icon-dropdown.svg';
+import CheckMark from '../assets/images/icon-checkmark.svg';
 
 function WeatherHourly() {
     const [showMenu, setShowMenu] = useState(false);
