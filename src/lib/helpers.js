@@ -8,3 +8,7 @@ export function formatDate(dateString) {
         year: "numeric",
     }).format(date);
 }
+
+export function getHour(dateString) {
+  return new Date(dateString).getHours();
+}

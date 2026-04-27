@@ -1,11 +1,3 @@
-import WeatherDrizzle from '../assets/images/icon-drizzle.webp';
-import WeatherFog from '../assets/images/icon-fog.webp';
-import WeatherOvercast from '../assets/images/icon-overcast.webp';
-import WeatherPartlyCloudy from '../assets/images/icon-partly-cloudy.webp';
-import WeatherRain from '../assets/images/icon-rain.webp';
-import WeatherSnow from '../assets/images/icon-snow.webp';
-import WeatherStorm from '../assets/images/icon-storm.webp';
-import WeatherSunny from '../assets/images/icon-sunny.webp';
 import { useWeather } from '../context/useWeather';
 import { getWeatherPresentation, weatherIcons } from '../lib/weatherPresentation';
 
