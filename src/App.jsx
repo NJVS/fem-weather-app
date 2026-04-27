@@ -9,7 +9,7 @@ import RetryIcon from "./assets/images/icon-retry.svg";
 
 function App() {
 
-    const { error } = useWeather();
+    const { error, weather, loading } = useWeather();
 
     function handleRetry() {
         window.location.reload();
@@ -32,14 +32,21 @@ function App() {
                     </div>
                 ) : (
                     <>
-                    <Header />
-                    <main className="flex flex-col w-full gap-6 mx-auto font-sans md:gap-3 lg:gap-8 max-w-275 md:flex-row">
-                        <div className="flex flex-col gap-6 md:gap-3 lg:gap-8">
-                            <WeatherToday />
-                            <WeatherDaily />
-                        </div>
-                        <WeatherHourly />
-                    </main>
+                        <Header />
+                        {weather || loading ? (
+                            <main className="flex flex-col w-full gap-6 mx-auto font-sans md:gap-3 lg:gap-8 max-w-275 md:flex-row">
+                                <div className="flex flex-col gap-6 md:gap-3 lg:gap-8">
+                                    <WeatherToday />
+                                    <WeatherDaily />
+                                </div>
+                                <WeatherHourly />
+                            </main>
+
+                        ) : (
+                            <div className="flex flex-col gap-2 items-center text-center mx-auto max-w-125">
+                                <h5 className="text-xl font-semibold italic text-center text-white font-sans">Search for a city to begin...</h5>
+                            </div>
+                        )}
                     </>
                 )}
 
